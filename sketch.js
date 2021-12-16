@@ -32,19 +32,19 @@ function draw() {
   translate(50, 4);
   strokeWeight(0.21);
   t += 0.001;
-  drawingContext.filter = "saturate(65) drop-shadow(8 6 4Q#0400)";
+  //drawingContext.filter = "saturate(65) drop-shadow(8 6 4Q#0400)";
   drawingContext.setLineDash([2, 70, 22.5, 5, ]);
   for (i = 1; i; i--) {
     beginShape();
     for (r = 1.3 + sh; r < 2 + 2 * TAU; r += 0.05)
       curveVertex(
-        sin(r + 1)*
+        cos(r + 3.2)*
           (D =
             (noise(-sin(r * 4), i ^ (sh * 99), t) / i) *
             145 *
             (cos(r / 8) ** 12 * 1 + 2.5)) +
           460,
-        cos(r / 3) * -D + 360
+        sin(r - 2.9) * -D + 360
       );
     let arr = 355 * noise(t * 6);
     let g = 355 * noise(t * 5);
