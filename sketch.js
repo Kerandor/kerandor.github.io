@@ -1,14 +1,14 @@
 p5.disableFriendlyErrors = true;
 var t = 0;
-let button1;
-let button2;
-let button3;
-let canva;
-let r;
-let sh = 0;
-var fr = 155
-let g;
-let D;
+var button1;
+var button2;
+var button3;
+var canva;
+var r;
+var sh = 0;
+var fr = 255
+var g;
+
 
 function setup() {
   blendMode(SCREEN);
@@ -29,13 +29,14 @@ function setup() {
 }
 
 function draw() {
-  strokeWeight(0.251);
-  t += 0.0009;
+  translate(50, 4);
+  strokeWeight(0.21);
+  t += 0.001;
   drawingContext.filter = "saturate(65) drop-shadow(8 6 4Q#0400)";
-  drawingContext.setLineDash([2, 50, 12.5, 5]);
-  for (i = 2; i; i--) {
+  drawingContext.setLineDash([2, 70, 22.5, 5, ]);
+  for (i = 1; i; i--) {
     beginShape();
-    for (r = 1 + sh; r < 2 + 2 * TAU; r += 0.05)
+    for (r = 1.3 + sh; r < 2 + 2 * TAU; r += 0.05)
       curveVertex(
         sin(r + 1)*
           (D =
@@ -45,28 +46,35 @@ function draw() {
           460,
         cos(r / 3) * -D + 360
       );
-    let arr = 355 * noise(t * 16);
+    let arr = 355 * noise(t * 6);
     let g = 355 * noise(t * 5);
-    let b = 255 * noise(t * 3);
-    let z = 75 * noise(t + 420);
+    let b = 555 * noise(t * 18);
+    let z = 10 * noise(t + 400);
     fill(arr, g, b, z);
-    t = t + 0.000000001;
+    t = t + 0.000000000001;
     endShape(CLOSE);
+    translate(0, 0)
   }
 }
 
 function rugged() {
   noLoop();
   background(255);
-  D = sin(D*18);
+  push();
+  shearY(720);
+  shearX(-320);
+  translate(150, -80);
+  
 }
 
 function vibe() {
   loop();
+  push();
   r = sh - (frameCount * 2);
 }
 
 function gn() {
+  rotate(720);
   t *= 1.5;
   sh += -0.2;
   noLoop();
