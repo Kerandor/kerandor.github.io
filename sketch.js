@@ -26,6 +26,7 @@ function setup() {
 }
 
 function draw() {
+	loop();
   strokeWeight(0.251);
   t += 0.00005;
   drawingContext.filter = "saturate(45) drop-shadow(8 6 4Q#0400)";
@@ -33,7 +34,7 @@ function draw() {
   for (i = 7; i; i--) {
     beginShape();
     let sh = 1.5;
-    for (r = 1+(2*sh); r < 2 + TAU; r += 0.05)
+    for (r = 1+(2*sh); r < 2 + TAU; r += 0.03)
       curveVertex(
         sin(r * 7) *
           (D =
