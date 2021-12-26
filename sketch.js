@@ -11,7 +11,7 @@ function setup() {
 	blendMode(SCREEN);
   noLoop();
   pixelDensity();
-  createCanvas(displayWidth, displayHeight);
+  createCanvas(windowWidth, widowHeight);
   background(255);
   button1 = createButton("!vibe");
   button1.position(280, 735);
