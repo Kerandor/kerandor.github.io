@@ -8,9 +8,9 @@ let r;
 let sh;
 
 function setup() {
-	blendMode(SCREEN);
+  blendMode(SCREEN);
   noLoop();
-  pixelDensity();
+  pixelDensity(1);
   createCanvas(windowWidth, widowHeight);
   background(255);
   button1 = createButton("!vibe");
@@ -26,15 +26,15 @@ function setup() {
 }
 
 function draw() {
-	loop();
+  loop();
   strokeWeight(0.251);
   t += 0.00005;
   drawingContext.filter = "saturate(45) drop-shadow(8 6 4Q#0400)";
   drawingContext.setLineDash([1, 3, 50, 3, 2]);
-  for (i = 7; i; i--) {
+  for (i = 3; i; i--) {
     beginShape();
     let sh = 1.5;
-    for (r = 1+(2*sh); r < 2 + TAU; r += 0.03)
+    for (r = 0; r < 2 + TAU; r += 0.03)
       curveVertex(
         sin(r * 7) *
           (D =
@@ -71,5 +71,5 @@ function gn() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
- // background(255);
+  background(255);
 }
