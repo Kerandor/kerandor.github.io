@@ -1,0 +1,111 @@
+body {
+    text-align: center;
+    background-color: black;
+    font-family: 'Courier New', Courier, monospace;
+    color: aliceblue;
+    /* margin: 10% 20%; */
+}
+
+.title {
+    padding: 80px;
+    text-align: center;
+    background-image: url(sources/static-tv-1.png);
+    text-transform: uppercase;
+    font-size: x-large;
+}
+
+.hydra-title {
+    padding: 80px;
+    text-align: center;
+    background-image: url(sources/static-tv-1.png);
+    text-transform: uppercase;
+    font-size: x-large;
+}
+
+.p5-title {
+    padding: 80px;
+    text-align: center;
+    background-image: url(sources/static-tv-1.png);
+    text-transform: uppercase;
+    font-size: x-large;
+}
+
+.contact-title {
+    padding: 80px;
+    text-align: center;
+    background-image: url(sources/static-tv-1.png);
+    text-transform: uppercase;
+    font-size: x-large;
+}
+
+.links {
+    overflow: hidden;
+    }
+
+.links a {
+    float: left;
+    display: block;
+    color: aliceblue;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: large;
+    }
+
+.links a.right {
+    float: right;
+    }
+
+.links a:hover {
+    background-image: url(sources/static-tv-1.png);
+    }
+
+.hydra-links {
+    overflow: hidden;
+    }
+
+.hydra-links a {
+    text-decoration: none;
+    color: aliceblue;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: large;
+    }
+
+.hydra-links a:hover {
+    background-image: url(sources/static-tv-1.png);
+    }
+
+.p5-links {
+    overflow: hidden;
+    }
+
+.p5-links a {
+    text-decoration: none;
+    color: aliceblue;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: large;
+    }
+
+.p5-links a:hover {
+    background-image: url(sources/static-tv-1.png);
+    }
+
+.contact-links {
+    overflow: hidden;
+    }
+
+.contact-links a {
+    text-decoration: none;
+    color: aliceblue;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: large;
+    }
+
+.contact-links a:hover {
+    background-image: url(sources/static-tv-1.png);
+    }
+
+    
