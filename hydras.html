@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>hydra-synth wirks</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://unpkg.com/hydra-synth"></script>
+</head>
+
+<body>
+    <div class="hydra-title">
+        <h1>hydra-synth.js</h1>
+        <p>fun feedback and oscillations</p>
+    </div>
+
+    <div class="links">
+        <a href="./index.html">Home</a>
+        <a href="./contact.html" class="right">Contact</a>
+    </div>
+
+    <div class="hydra">
+        <canvas id="hydra" width="2000" height="600"></canvas>
+    </div>
+
+    <div class="hydra-links">
+        <a href="https://miscible.vercel.app/">miscible (randomized on reload)</a>
+        <a href="https://dithers.vercel.app/">dithers (reload if b&w, takes a lot of memory)</a>
+        <a href="https://warbles.vercel.app/">warbles</a>
+        <a href="https://doppler.vercel.app">doppler</a>
+        <a href="https://puddlez.vercel.app/">puddlez</a>
+        <a href="https://kaleid.vercel.app/">kaleid (randomized on reload)</a>
+        <a href="https://hydruhs.vercel.app/">hydruhs</a>
+        <a href="https://brainfuzz.vercel.app/">brainfuzz</a>
+    </div>
+
+    <script>
+        // create a hydra-synth instance
+        const hydra = new Hydra({
+            canvas: document.getElementById('hydra'),
+            detectAudio: false
+        })
+
+        osc(100, 0.26, 1.8).modulate(noise(0.84).modulateScale(osc(10))).out(o0)
+
+        voronoi(25, 1.0).modulateRotate(noise(0.1)).modulate(src(o0).blend(src(o1))).colorama(0.77).out(o1)
+        render(o1)
+        speed = 0.5
+    </script>
+
+
+</body>
+
+</html>
