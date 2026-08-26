@@ -105,7 +105,8 @@ class Player {
   permalink() {
     const u = new URL(location.href);
     u.hash = this.current;
-    u.searchParams.set("hash", this.hash || "");
+    if (this.hash) u.searchParams.set("hash", this.hash);
+    else u.searchParams.delete("hash");
     return u.toString();
   }
 }
