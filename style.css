@@ -53,6 +53,7 @@ body {
 }
 
 img, canvas, iframe, video { display: block; max-width: 100%; }
+img { height: auto; }
 iframe { border: 0; }
 
 h1, h2, h3 { font-weight: 700; line-height: 1.04; letter-spacing: -0.025em; margin: 0; }
@@ -389,6 +390,31 @@ button {
 .split__prose strong { color: var(--ink); font-weight: 700; }
 
 .split__figure figcaption { margin-top: 0.75rem; }
+
+/* About stacks: a readable prose column, then the photograph full width. The
+   subject sits low in the frame, so the crop is weighted downward. */
+.about__prose {
+  display: grid;
+  gap: 1.15rem;
+  max-width: 62ch;
+  color: var(--ink-mid);
+}
+.about__prose strong { color: var(--ink); font-weight: 700; }
+
+.about__figure { margin: clamp(2.25rem, 4vw, 3.5rem) 0 0; }
+
+.about__figure img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center 70%;
+  border: var(--rule);
+}
+
+@media (max-width: 640px) {
+  /* Give the wall more presence on a phone than a letterbox strip would. */
+  .about__figure img { aspect-ratio: 4 / 3; }
+}
 
 @media (max-width: 860px) {
   .split { grid-template-columns: 1fr; }
