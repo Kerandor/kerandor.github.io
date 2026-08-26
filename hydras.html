@@ -49,7 +49,11 @@
     <section data-gallery aria-label="Sketch player">
       <div class="stage">
         <div class="stage__player" data-stage>
-          <iframe title="Live generative video" allow="microphone" loading="eager"></iframe>
+          <iframe title="Live generative video" allow="microphone; fullscreen"
+                  allowfullscreen loading="eager"></iframe>
+          <button class="btn fs-exit" type="button" data-control="exit-full">
+            <span>exit fullscreen</span>
+          </button>
         </div>
 
         <div class="dial" data-dial role="tablist" aria-label="Pieces"

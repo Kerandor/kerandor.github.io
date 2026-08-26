@@ -295,6 +295,32 @@ button {
 .stage__player { position: relative; min-width: 0; background: var(--bg-sunken); }
 .stage__player iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
 
+/* Fallback fullscreen for browsers without Element.requestFullscreen, which
+   on iPhone is all of them. */
+.stage__player.is-overlaid {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  aspect-ratio: auto;
+  border: 0;
+}
+
+html.has-overlay, html.has-overlay body { overflow: hidden; }
+
+/* Native fullscreen paints its own backdrop; the overlay needs one. */
+.stage__player.is-overlaid { background: var(--bg); }
+
+.fs-exit {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: none;
+}
+
+.stage__player.is-overlaid .fs-exit,
+.stage__player:fullscreen .fs-exit { display: inline-flex; }
+
 /* Vertical, scrolling in its own box. */
 .dial {
   position: relative;

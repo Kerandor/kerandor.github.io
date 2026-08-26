@@ -244,7 +244,46 @@ async function initGallery(root) {
     } catch { /* clipboard blocked, nothing useful to say */ }
   });
 
-  btn("full")?.addEventListener("click", () => frame.requestFullscreen?.());
+  /* Fullscreen.
+     iOS Safari does not implement Element.requestFullscreen at all; only video
+     elements can go fullscreen there. The optional call just did nothing, so
+     fall back to a fixed overlay, which works everywhere. */
+  const fullBtn = btn("full");
+  let overlaid = false;
+
+  const nativeTarget = () => document.fullscreenElement || document.webkitFullscreenElement;
+
+  const syncFull = () => {
+    const on = Boolean(nativeTarget()) || overlaid;
+    frame.classList.toggle("is-overlaid", overlaid);
+    document.documentElement.classList.toggle("has-overlay", overlaid);
+    if (fullBtn) fullBtn.querySelector("span").textContent = on ? "exit" : "fullscreen";
+  };
+
+  const setOverlay = (on) => { overlaid = on; syncFull(); };
+
+  const exitFull = () => {
+    if (nativeTarget()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    if (overlaid) setOverlay(false);
+  };
+
+  fullBtn?.addEventListener("click", async () => {
+    if (nativeTarget() || overlaid) return exitFull();
+
+    const request = frame.requestFullscreen || frame.webkitRequestFullscreen;
+    if (!request) return setOverlay(true);
+    try {
+      await request.call(frame);
+      syncFull();
+    } catch {
+      setOverlay(true); // present but refused, for instance inside some embeds
+    }
+  });
+
+  root.querySelector("[data-control='exit-full']")?.addEventListener("click", exitFull);
+  document.addEventListener("fullscreenchange", syncFull);
+  document.addEventListener("webkitfullscreenchange", syncFull);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && overlaid) exitFull(); });
 
   // Stop rendering while the player is off screen. WebGL keeps burning battery
   // otherwise, which matters most on the phones this is meant to work on.
