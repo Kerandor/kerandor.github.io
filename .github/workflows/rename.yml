@@ -1,0 +1,90 @@
+# One-shot scheduled rename.
+#
+# On the first daily run on or after SWITCH_ON, this rewrites the display name
+# across the site, commits, and then deletes itself so it never runs again.
+#
+# It edits the source rather than swapping the name in the browser because the
+# name also lives in <title>, meta description and og:title. Social crawlers
+# read those from raw HTML without running JavaScript, so a client side swap
+# would leave every shared link showing the old name indefinitely.
+#
+# To cancel: delete this file.
+# To change the date or spelling: edit the env block below.
+# To rehearse: run it manually from the Actions tab with dry run left on.
+
+name: Scheduled rename
+
+on:
+  schedule:
+    - cron: "0 12 * * *" # daily, 12:00 UTC (07:00 in Minneapolis)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Report what would change without committing"
+        type: boolean
+        default: true
+      ignore_date:
+        description: "Run the swap even before the switch date"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    env:
+      OLD_NAME: "Tristan Bridges"
+      NEW_NAME: "Tristan SwordLegz"
+      SWITCH_ON: "2026-10-05" # first day the new name should appear, UTC
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check whether it is time
+        id: gate
+        run: |
+          today="$(date -u +%F)"
+          echo "today (UTC): $today"
+          echo "switch on:   $SWITCH_ON"
+          # Compare as plain integers so there is no shell operator or locale
+          # collation subtlety in something that only gets one chance to fire.
+          t="${today//-/}"
+          s="${SWITCH_ON//-/}"
+          if [ "${{ inputs.ignore_date }}" = "true" ] || [ "$t" -ge "$s" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Not yet. Nothing to do."
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Rewrite the name
+        if: steps.gate.outputs.go == 'true'
+        run: |
+          files=$(grep -rl "$OLD_NAME" . --exclude-dir=.git --exclude-dir=.github || true)
+          if [ -z "$files" ]; then
+            echo "No occurrences left. Already renamed."
+            exit 0
+          fi
+          echo "Rewriting in:"; echo "$files"
+          echo "$files" | xargs sed -i "s/${OLD_NAME}/${NEW_NAME}/g"
+          echo "--- resulting diff ---"
+          git --no-pager diff --stat
+
+      - name: Commit and retire this workflow
+        if: steps.gate.outputs.go == 'true' && inputs.dry_run != true
+        run: |
+          if git diff --quiet; then
+            echo "Nothing changed, leaving the workflow in place."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -q .github/workflows/rename.yml
+          git add -A
+          git commit -m "Update display name to ${NEW_NAME}
+
+          Scheduled rename fired on or after ${SWITCH_ON}. The workflow removed
+          itself in this commit so it will not run again."
+          git push

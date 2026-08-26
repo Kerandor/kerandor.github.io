@@ -66,8 +66,25 @@ currently on screen.
 
 ## Changing the display name
 
-It appears in the nav, the hero and the page titles.
+The name appears 14 times across the four pages and this README, including in
+`<title>`, `meta description` and `og:title`.
+
+To change it now:
 
 ```
-grep -rl "Tristan Bridges" *.html | xargs sed -i '' 's/Tristan Bridges/NEW NAME/g'
+grep -rl "Tristan Bridges" . --exclude-dir=.git --exclude-dir=.github \
+  | xargs sed -i '' 's/Tristan Bridges/NEW NAME/g'
 ```
+
+A scheduled change is already set up in `.github/workflows/rename.yml`. On the
+first daily run on or after its `SWITCH_ON` date it rewrites the name, commits,
+and deletes itself so it cannot fire twice. Edit the `env` block to change the
+date or the spelling, delete the file to cancel, or run it from the Actions tab
+with dry run left on to rehearse it.
+
+It edits the source rather than swapping the name in the browser because social
+crawlers read `og:title` from raw HTML without running JavaScript. A client side
+swap would leave every shared link showing the old name.
+
+One caveat: GitHub disables scheduled workflows after 60 days without a push to
+the repository. Push something before then if the date is still far off.
