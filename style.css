@@ -376,16 +376,29 @@ button {
 .badge--warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, transparent); }
 
 @media (max-width: 900px) {
-  .stage {
-    grid-template-columns: 1fr;
-    height: auto;
+  /* Dissolve the stage grid so the player, the controls and the list become
+     siblings of one column and can be reordered. Controls move directly under
+     the player: reaching them below the list meant scrolling the piece away. */
+  [data-gallery] { display: flex; flex-direction: column; }
+  .stage { display: contents; }
+
+  .stage__player {
+    order: 1;
+    aspect-ratio: 4 / 3;
+    border-block: var(--rule);
   }
-  .stage__player { aspect-ratio: 4 / 3; }
+
+  [data-gallery] > .shell { order: 2; }
+
   .dial {
+    order: 3;
     border-left: 0;
     border-top: var(--rule);
     max-height: 46dvh;
   }
+
+  /* The dial supplies the rule under the controls. */
+  .player__bar { border-bottom: 0; }
 }
 
 /* ------------------------------------------------------------------- lists */
