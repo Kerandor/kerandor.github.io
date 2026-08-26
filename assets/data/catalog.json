@@ -1,0 +1,871 @@
+{
+  "generatedAt": "2026-08-26",
+  "source": {
+    "repo": "Internet-Kids/hydraz",
+    "branch": "new-workflow",
+    "commit": "5dacb17"
+  },
+  "sketches": [
+    {
+      "id": "ds_01_split_carrier",
+      "file": "assets/hydra/sketches/dual-signal/ds_01_split_carrier.js",
+      "title": "Split Carrier",
+      "series": "Dual Signal",
+      "blurb": "Opposed carrier halves with audio-opened pixel fuzz",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "pixel",
+        "safe",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.22,
+      "seed": "oovD4EW7V9fYCg4af4SrAui3aWiksbFM6ErUgt7rQVM8xssmy21"
+    },
+    {
+      "id": "ds_02_mirror_gate",
+      "file": "assets/hydra/sketches/dual-signal/ds_02_mirror_gate.js",
+      "title": "Mirror Gate",
+      "series": "Dual Signal",
+      "blurb": "Bilateral gate snapping open on bass hits",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.32,
+      "seed": "ooSVkFVyTEms6gJJtZDiyDNrMMPmZowKu5WcyQccuVNxR9Yt3Gk"
+    },
+    {
+      "id": "ds_03_wide_osc_columns",
+      "file": "assets/hydra/sketches/dual-signal/ds_03_wide_osc_columns.js",
+      "title": "Wide Osc Columns",
+      "series": "Dual Signal",
+      "blurb": "Spaced vertical oscillator columns crushed into blocks",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "glitch",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.18,
+      "seed": "ooWDDQdjLYF3syqSGhVQE7voBLcmTVpHQMgoHed5Abw63mpNTee"
+    },
+    {
+      "id": "ds_04_twin_scan_rift",
+      "file": "assets/hydra/sketches/dual-signal/ds_04_twin_scan_rift.js",
+      "title": "Twin Scan Rift",
+      "series": "Dual Signal",
+      "blurb": "Left/right scanline rift with asynchronous tear offsets",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "glitch",
+        "scanline",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.55,
+      "seed": "ooE3S78t22yH4Z16hgxzChjCJwcuNoc73oyEpKGgZx11JxoP4hh"
+    },
+    {
+      "id": "ds_05_binary_pendulum",
+      "file": "assets/hydra/sketches/dual-signal/ds_05_binary_pendulum.js",
+      "title": "Binary Pendulum",
+      "series": "Dual Signal",
+      "blurb": "Crossing two-sided strokes posterized into hard pixels",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "pixel",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.28,
+      "seed": "oonCjyvSuy3TW3yXjGVDXVL9mT1VHc8XsSKDmfbosER8qqWNpBZ"
+    },
+    {
+      "id": "ds_06_stereo_bitfield",
+      "file": "assets/hydra/sketches/dual-signal/ds_06_stereo_bitfield.js",
+      "title": "Stereo Bitfield",
+      "series": "Dual Signal",
+      "blurb": "Mirrored bitfields using separate audio bands",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "pixel",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.12,
+      "seed": "ooYtMSw3ZA2mgY6ogMRvTwBmdHLDm73GWjoQuz7dEurRagG9sUM"
+    },
+    {
+      "id": "ds_07_bass_hinge",
+      "file": "assets/hydra/sketches/dual-signal/ds_07_bass_hinge.js",
+      "title": "Bass Hinge",
+      "series": "Dual Signal",
+      "blurb": "Two hinged panels folding with low-end audio",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.2,
+      "seed": "ooLAs4mRqXABbyucKxq8yrMVWvKhPf7NZmBKtK22dcsYHZaLa4y"
+    },
+    {
+      "id": "ds_08_gap_oscillator",
+      "file": "assets/hydra/sketches/dual-signal/ds_08_gap_oscillator.js",
+      "title": "Gap Oscillator",
+      "series": "Dual Signal",
+      "blurb": "Sparse oscillator gaps widened by audio",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.08,
+      "seed": "ooWTRhJLkmTe37AYsV4Tgar7Cf5WSYxpTg8CN7QQPqGUwaHrrQv"
+    },
+    {
+      "id": "ds_09_dual_voronoi_static",
+      "file": "assets/hydra/sketches/dual-signal/ds_09_dual_voronoi_static.js",
+      "title": "Dual Voronoi Static",
+      "series": "Dual Signal",
+      "blurb": "Mirrored cell static around a central axis",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "noise",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.18,
+      "seed": "oomKTG1y5avdXjHeazKC8frK7USWszheg8pfeub5XxYcmkuLW5U"
+    },
+    {
+      "id": "ds_10_tape_symmetry",
+      "file": "assets/hydra/sketches/dual-signal/ds_10_tape_symmetry.js",
+      "title": "Tape Symmetry",
+      "series": "Dual Signal",
+      "blurb": "Bilateral tape wobble with chromatic ghost feedback",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "feedback",
+        "rgb",
+        "signal",
+        "tape"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.35,
+      "seed": "oogikjRh1NPBPiP2AGLDPE2rH5GuawsTCPd3Kn97YdZ7zsEmx7h"
+    },
+    {
+      "id": "ds_11_cross_phase_pixels",
+      "file": "assets/hydra/sketches/dual-signal/ds_11_cross_phase_pixels.js",
+      "title": "Cross Phase Pixels",
+      "series": "Dual Signal",
+      "blurb": "Opposing oscillators cross-modulated into blocks",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "pixel",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.24,
+      "seed": "ooTPkh7uJXDS2mtvAKSJu9LN1GfJ51d5VJGCWzdqYhkJjaqJTF9"
+    },
+    {
+      "id": "ds_12_bayer_mouth",
+      "file": "assets/hydra/sketches/dual-signal/ds_12_bayer_mouth.js",
+      "title": "Bayer Mouth",
+      "series": "Dual Signal",
+      "blurb": "Audio mouth mask filled with dither storm",
+      "tags": [
+        "audio",
+        "crt",
+        "dither",
+        "dual-signal",
+        "intense",
+        "pixel",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.16,
+      "seed": "ooeHyqU3ijT1KWx2oFciYXPCHxVFxJjdeSoFMotVSS1vbP5dEj5"
+    },
+    {
+      "id": "ds_13_sync_lantern",
+      "file": "assets/hydra/sketches/dual-signal/ds_13_sync_lantern.js",
+      "title": "Sync Lantern",
+      "series": "Dual Signal",
+      "blurb": "Sparse twin pulses leaving glowing pixel trails",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "feedback",
+        "intense",
+        "pixel",
+        "safe",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.1,
+      "seed": "ooWouTwj32GjijPVmFS1t8Ku2TEB48tA61WM73TYR2L8oxoRdmx"
+    },
+    {
+      "id": "ds_14_shard_mirror",
+      "file": "assets/hydra/sketches/dual-signal/ds_14_shard_mirror.js",
+      "title": "Shard Mirror",
+      "series": "Dual Signal",
+      "blurb": "Mirrored shards with audio-rotated glitch mosaic",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "glitch",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.2,
+      "seed": "ooFyaLAicTPouo7cxJKgxDiRzCDpRorubXNMu5TYspeyYUx7Xbj"
+    },
+    {
+      "id": "ds_15_modem_breath",
+      "file": "assets/hydra/sketches/dual-signal/ds_15_modem_breath.js",
+      "title": "Modem Breath",
+      "series": "Dual Signal",
+      "blurb": "Breathing split with thin modem-carrier sync loss",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "safe",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.09,
+      "seed": "ooDPH1Mmqr9HY7QAdipMDfRLkCmUG4ArJe5gFknJtCyDWynFqok"
+    },
+    {
+      "id": "ds_16_crt_bilateral",
+      "file": "assets/hydra/sketches/dual-signal/ds_16_crt_bilateral.js",
+      "title": "CRT Bilateral",
+      "series": "Dual Signal",
+      "blurb": "Two-panel CRT phosphor with scanline burn",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "scanline",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 1.2,
+      "seed": "ooiUSM5j6rhERjv2rk452kyG2gaYiEaM39NKuWpY5B7RwgDitBu"
+    },
+    {
+      "id": "ds_17_dual_rain",
+      "file": "assets/hydra/sketches/dual-signal/ds_17_dual_rain.js",
+      "title": "Dual Rain",
+      "series": "Dual Signal",
+      "blurb": "Mirrored pixel rain lanes with audio sparkle",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "pixel",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.28,
+      "seed": "ooJebXD1ekucqKs2AGyU5J1VR2eNZgVJRqthfdNMsmvD7RtS69c"
+    },
+    {
+      "id": "ds_18_square_wave_fault",
+      "file": "assets/hydra/sketches/dual-signal/ds_18_square_wave_fault.js",
+      "title": "Square Wave Fault",
+      "series": "Dual Signal",
+      "blurb": "Two-sided square-wave fields shearing on peaks",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "glitch",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.15,
+      "seed": "ooKNoJtDzTe7rAPr1HCfxP55VjyF5ZiQvJgbvDxYz5eBWoe711o"
+    },
+    {
+      "id": "ds_19_luma_saw",
+      "file": "assets/hydra/sketches/dual-signal/ds_19_luma_saw.js",
+      "title": "Luma Saw",
+      "series": "Dual Signal",
+      "blurb": "Wide sawtooth mask with luma feedback and harsh quantization",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "feedback",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.12,
+      "seed": "oougtdYaic6aN5vAHKgjL54rbJWazLEdQAw7rw16iXh2jMgHZnw"
+    },
+    {
+      "id": "ds_20_feedback_jaws",
+      "file": "assets/hydra/sketches/dual-signal/ds_20_feedback_jaws.js",
+      "title": "Feedback Jaws",
+      "series": "Dual Signal",
+      "blurb": "Opposing feedback shapes closing over a noisy signal core",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "feedback",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.2,
+      "seed": "oosBXk5MtFtfNVLayGiKjtDAEVLTYoKoTm5xYGEqC2kgDJqRE3j"
+    },
+    {
+      "id": "dsf_01_pendulum_gate",
+      "file": "assets/hydra/sketches/favorites/dsf_01_pendulum_gate.js",
+      "title": "Pendulum Gate",
+      "series": "Favorites",
+      "blurb": "Pendulum arms through a bass-opened center gate",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "gate",
+        "pendulum",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.22,
+      "seed": "ooNcWGR3MQoncWhLPDM6Tk2B2dPGA1gbHvB4scnkv4LAnYEnvsb"
+    },
+    {
+      "id": "dsf_02_bitfield_switchyard",
+      "file": "assets/hydra/sketches/favorites/dsf_02_bitfield_switchyard.js",
+      "title": "Bitfield Switchyard",
+      "series": "Favorites",
+      "blurb": "Mirrored bit planes rerouted by audio bands",
+      "tags": [
+        "audio",
+        "bitfield",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "glitch",
+        "pixel",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.1,
+      "seed": "ooFXFtqDs9y1qS5UyBj9fSYA8LXdybYUqZNzbxmkEbHfjM7gKjX"
+    },
+    {
+      "id": "dsf_03_hinge_terminal",
+      "file": "assets/hydra/sketches/favorites/dsf_03_hinge_terminal.js",
+      "title": "Hinge Terminal",
+      "series": "Favorites",
+      "blurb": "Folding panels over a terminal carrier",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "favorite",
+        "hinge",
+        "safe",
+        "signal",
+        "terminal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.18,
+      "seed": "oosnG6mnvdUHvPnRxLr8XfixhCrifHwCm9vfXfGbk9oScHpU5QK"
+    },
+    {
+      "id": "dsf_04_gap_beacon",
+      "file": "assets/hydra/sketches/favorites/dsf_04_gap_beacon.js",
+      "title": "Gap Beacon",
+      "series": "Favorites",
+      "blurb": "Wide oscillator gaps pulsing as twin beacons",
+      "tags": [
+        "beacon",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "minimal",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.08,
+      "seed": "ooUr1WdqitGeg2W6qho8PzxqToiUsmjzL3wBtAo2Bs8d1wvchq5"
+    },
+    {
+      "id": "dsf_05_tape_pendulum",
+      "file": "assets/hydra/sketches/favorites/dsf_05_tape_pendulum.js",
+      "title": "Tape Pendulum",
+      "series": "Favorites",
+      "blurb": "Tape-wobble carrier around crossing pendulum strokes",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "favorite",
+        "pendulum",
+        "safe",
+        "signal",
+        "tape"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.32,
+      "seed": "oocEoT4MDs27YeDunTgqZ6ZUkvP9ZSzKNH6ya8j6P8kRQVLLtm3"
+    },
+    {
+      "id": "dsf_06_cross_phase_gate",
+      "file": "assets/hydra/sketches/favorites/dsf_06_cross_phase_gate.js",
+      "title": "Cross Phase Gate",
+      "series": "Favorites",
+      "blurb": "Cross-phase oscillators crushed through a gate",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "gate",
+        "glitch",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.22,
+      "seed": "ooFyR77wdaEsjwrpyYpff1fyfHhX8i8z4ykQaLxn44j5CSm7pTf"
+    },
+    {
+      "id": "dsf_07_lantern_bitmask",
+      "file": "assets/hydra/sketches/favorites/dsf_07_lantern_bitmask.js",
+      "title": "Lantern Bitmask",
+      "series": "Favorites",
+      "blurb": "Sparse twin pulses behind bitfield thresholds. Current stage sketch",
+      "tags": [
+        "audio",
+        "bitmask",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "intense",
+        "pixel",
+        "safe",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.1,
+      "seed": "oog6sMT1k5FgjjwegAF3B5mFPKELkp89HYbXz5Q96M6ph8NnR9T"
+    },
+    {
+      "id": "dsf_08_double_hinge_scan",
+      "file": "assets/hydra/sketches/favorites/dsf_08_double_hinge_scan.js",
+      "title": "Double Hinge Scan",
+      "series": "Favorites",
+      "blurb": "Hinged panels with scanline interiors",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "favorite",
+        "hinge",
+        "scanline",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.25,
+      "seed": "oosQgrbdjnA1TwRyxoo6Snjf8pzJdtfvMAgEHjpiSuSVsJgmcw4"
+    },
+    {
+      "id": "dsf_09_gap_fault_grid",
+      "file": "assets/hydra/sketches/favorites/dsf_09_gap_fault_grid.js",
+      "title": "Gap Fault Grid",
+      "series": "Favorites",
+      "blurb": "Sparse gaps fractured by square-wave grid faults",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "favorite",
+        "glitch",
+        "grid",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.12,
+      "seed": "ooFZnUxYUVqkBH6sTj3qY6kXwEuhfnr7uxYY2Qh7wUHDZJuvcUj"
+    },
+    {
+      "id": "dsf_10_stereo_pendulum",
+      "file": "assets/hydra/sketches/favorites/dsf_10_stereo_pendulum.js",
+      "title": "Stereo Pendulum",
+      "series": "Favorites",
+      "blurb": "Bass and treble pendulums colliding at center",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "pendulum",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.24,
+      "seed": "ooKmhgXgmoDRbKvBn2DQbMB19yKjyBjAhv3ocKfsabBUxeH461U"
+    },
+    {
+      "id": "dsf_11_tape_switchback",
+      "file": "assets/hydra/sketches/favorites/dsf_11_tape_switchback.js",
+      "title": "Tape Switchback",
+      "series": "Favorites",
+      "blurb": "Bilateral tape bends with left/right phase jumps",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "favorite",
+        "phase",
+        "signal",
+        "tape"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.34,
+      "seed": "oosTa9YD4fRdNvSFMYRQRaGJ9mFj1TbgzZC54NmzphoBnL2qbbT"
+    },
+    {
+      "id": "dsf_12_pixel_lantern_columns",
+      "file": "assets/hydra/sketches/favorites/dsf_12_pixel_lantern_columns.js",
+      "title": "Pixel Lantern Columns",
+      "series": "Favorites",
+      "blurb": "Sparse twin pulses multiplied into columns",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "favorite",
+        "intense",
+        "lantern",
+        "pixel",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.09,
+      "seed": "ooFSwWcsmvafB4jsBEpowr9Jwrrmk5e7qwcmtAZEH6eLaqNCBq8"
+    },
+    {
+      "id": "dsf_13_hinge_bitcrush",
+      "file": "assets/hydra/sketches/favorites/dsf_13_hinge_bitcrush.js",
+      "title": "Hinge Bitcrush",
+      "series": "Favorites",
+      "blurb": "Folding panels filled with binary threshold noise",
+      "tags": [
+        "bitcrush",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "glitch",
+        "hinge",
+        "noise",
+        "pixel",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.18,
+      "seed": "oojtAgUYrZ7WGFu7MnENUNXjzuuTGD8zphfTnHEgVeotXsUqP9P"
+    },
+    {
+      "id": "dsf_14_cross_phase_saw",
+      "file": "assets/hydra/sketches/favorites/dsf_14_cross_phase_saw.js",
+      "title": "Cross Phase Saw",
+      "series": "Favorites",
+      "blurb": "Cross-phase fields cut by wide saw masks",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "favorite",
+        "mask",
+        "phase",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.14,
+      "seed": "oos1qCRGSKvjPYrSQSsmwTjPUPL4DH4ie6ECYzsAEuvfLGcVK5A"
+    },
+    {
+      "id": "dsf_15_mirror_clutch",
+      "file": "assets/hydra/sketches/favorites/dsf_15_mirror_clutch.js",
+      "title": "Mirror Clutch",
+      "series": "Favorites",
+      "blurb": "Two-sided doors snapping inward on bass",
+      "tags": [
+        "audio",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "intense",
+        "mirror",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.18,
+      "seed": "oodK7ihkP2usqPpvS31WTpawAkCefqA8uWmKWaHd8RTPksAXHAh"
+    },
+    {
+      "id": "dsf_16_sync_pendulum",
+      "file": "assets/hydra/sketches/favorites/dsf_16_sync_pendulum.js",
+      "title": "Sync Pendulum",
+      "series": "Favorites",
+      "blurb": "Pendulum strokes periodically losing sync",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "favorite",
+        "pendulum",
+        "phase",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.2,
+      "seed": "ootPQQCkTgHxPKomo17YKuF47KWqxTwYyMLsviQTLQJHPEnPZH9"
+    },
+    {
+      "id": "dsf_17_beacon_tape_glow",
+      "file": "assets/hydra/sketches/favorites/dsf_17_beacon_tape_glow.js",
+      "title": "Beacon Tape Glow",
+      "series": "Favorites",
+      "blurb": "Warm lantern pulses with tape ghosting",
+      "tags": [
+        "ambient",
+        "beacon",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "intense",
+        "safe",
+        "signal",
+        "tape"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.18,
+      "seed": "ooa8RQy1RCvjoU2spcKEd5GMpJShZPXas9KtRVj4N12K5uVUknJ"
+    },
+    {
+      "id": "dsf_18_bitfield_halo",
+      "file": "assets/hydra/sketches/favorites/dsf_18_bitfield_halo.js",
+      "title": "Bitfield Halo",
+      "series": "Favorites",
+      "blurb": "Mirrored bitfields with a glowing center halo",
+      "tags": [
+        "bitfield",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "halo",
+        "pixel",
+        "safe",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.11,
+      "seed": "ooKUQovi1ieT999pa1jFzghEbqZEH1JTHhqXgL4K7bzd1EF6dJ8"
+    },
+    {
+      "id": "dsf_19_gap_engine",
+      "file": "assets/hydra/sketches/favorites/dsf_19_gap_engine.js",
+      "title": "Gap Engine",
+      "series": "Favorites",
+      "blurb": "Spaced oscillator engine with mechanical hinge overlays",
+      "tags": [
+        "crt",
+        "dual-signal",
+        "favorite",
+        "hinge",
+        "mechanical",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.08,
+      "seed": "ooZLztKKT9rcEgwubKpHo3BaUbE6CU5bqhaGDHnSakxYokGJGWT"
+    },
+    {
+      "id": "dsf_20_crossfade_joints",
+      "file": "assets/hydra/sketches/favorites/dsf_20_crossfade_joints.js",
+      "title": "Crossfade Joints",
+      "series": "Favorites",
+      "blurb": "Hinge, pendulum, and bitfield layers crossfaded by audio",
+      "tags": [
+        "audio",
+        "crossfade",
+        "crt",
+        "dual-signal",
+        "favorite",
+        "intense",
+        "pixel",
+        "signal"
+      ],
+      "usesAudio": true,
+      "usesFxrand": true,
+      "speed": 0.2,
+      "seed": "ooRpAAF3zvmDHGHpnPEG68fTRgVJaaDtL11wfRHbmQkRwMYVRNX"
+    },
+    {
+      "id": "dithers",
+      "file": "assets/hydra/sketches/works/dithers.js",
+      "title": "Dithers",
+      "series": "Works",
+      "blurb": "",
+      "tags": [
+        "dither",
+        "pixel"
+      ],
+      "usesAudio": false,
+      "usesFxrand": true,
+      "speed": 1,
+      "seed": "ooXRfjXqE69X6W1t6KeTLgjgW7om2xAr3MVZSgXzLAB6q48fJau"
+    },
+    {
+      "id": "warbles",
+      "file": "assets/hydra/sketches/works/warbles.js",
+      "title": "Warbles",
+      "series": "Works",
+      "blurb": "",
+      "tags": [
+        "tape"
+      ],
+      "usesAudio": false,
+      "usesFxrand": false,
+      "speed": 1,
+      "seed": "ooY8ANsyHu54ir5JXFZmpXMFauDfYVRGeE5phjqNLfERnqrfWaE"
+    },
+    {
+      "id": "doppler",
+      "file": "assets/hydra/sketches/works/doppler.js",
+      "title": "Doppler",
+      "series": "Works",
+      "blurb": "",
+      "tags": [],
+      "usesAudio": false,
+      "usesFxrand": false,
+      "speed": 1,
+      "seed": "oo1di7gPT6TPtXXokqor8dU6Q5PRUHVEeEsJRqhvAyNEA8zNnbC"
+    },
+    {
+      "id": "puddlez",
+      "file": "assets/hydra/sketches/works/puddlez.js",
+      "title": "Puddlez",
+      "series": "Works",
+      "blurb": "",
+      "tags": [],
+      "usesAudio": true,
+      "usesFxrand": false,
+      "speed": 1,
+      "seed": "ooNoLrFxut7h8LCcrWScunBWkcHmJoc8edARKEg2iKYvfkvcT53"
+    },
+    {
+      "id": "kaleid",
+      "file": "assets/hydra/sketches/works/kaleid.js",
+      "title": "Kaleid",
+      "series": "Works",
+      "blurb": "",
+      "tags": [
+        "kaleid"
+      ],
+      "usesAudio": false,
+      "usesFxrand": true,
+      "speed": 1,
+      "seed": "oohfSWp5324XVh2fmqf6eRDgJSFGQgsWAo9Q4K5v4WkGfGYzZqV"
+    },
+    {
+      "id": "brainfuzz",
+      "file": "assets/hydra/sketches/works/brainfuzz.js",
+      "title": "Brainfuzz",
+      "series": "Works",
+      "blurb": "",
+      "tags": [],
+      "usesAudio": true,
+      "usesFxrand": false,
+      "speed": 1,
+      "seed": "oo9f9D6HWCz4uDEuc1WaPFB8DgT9ix1UoaXzdMKKYFtuGses8j7"
+    },
+    {
+      "id": "hydras_patch",
+      "file": "assets/hydra/sketches/site/hydras_patch.js",
+      "title": "Voronoi Bloom",
+      "series": "Site",
+      "blurb": "The patch that ran on the original hydra page.",
+      "tags": [
+        "feedback"
+      ],
+      "usesAudio": false,
+      "usesFxrand": false,
+      "speed": 0.5,
+      "seed": "oombK9LjfnppCX4G4CGmx5JjE9FoFZ8UZXRQiowobRtnebrf6h2"
+    },
+    {
+      "id": "contact_patch",
+      "file": "assets/hydra/sketches/site/contact_patch.js",
+      "title": "Hex Bloom",
+      "series": "Site",
+      "blurb": "The patch that ran on the original contact page.",
+      "tags": [
+        "feedback"
+      ],
+      "usesAudio": false,
+      "usesFxrand": false,
+      "speed": 0.5,
+      "seed": "ooEaqBmkreeiGprQ3C2L1f8hpkkeZ7wCdCaPQBy3zoF9V8Ncx5e"
+    }
+  ]
+}

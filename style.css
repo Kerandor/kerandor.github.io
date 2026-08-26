@@ -1,111 +1,436 @@
+@import url("assets/css/fonts.css");
+
+/* ------------------------------------------------------------------ tokens */
+
+:root {
+  /* Dark is locked, not a preference. This is a video synth portfolio: the
+     page is the unlit room the work is shown in. Colours are painted
+     explicitly so nothing borrows the host theme. */
+  --bg:          #07080a;
+  --bg-raised:   #0e1013;
+  --bg-sunken:   #030405;
+  --line:        #1d2126;
+  --line-bright: #2c3238;
+
+  --ink:      #e8ece9;
+  --ink-mid:  #a3aca6;
+  --ink-dim:  #6d7671;
+
+  /* One accent for the whole site. Every other colour on screen comes out of
+     the artwork itself. */
+  --accent:      #7de0a6;
+  --accent-dim:  #3d7a5a;
+  --warn:        #ffb35c;
+
+  --display: "Archivo", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  --mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, "Courier New", monospace;
+
+  --shell: 1360px;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --rule: 1px solid var(--line);
+
+  /* Radius is zero everywhere. Sharp corners match the pixelate stages the
+     work is built on. */
+  --radius: 0;
+}
+
+/* ------------------------------------------------------------------- reset */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
 body {
-    text-align: center;
-    background-color: black;
-    font-family: 'Courier New', Courier, monospace;
-    color: aliceblue;
-    /* margin: 10% 20%; */
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.6;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-.title {
-    padding: 80px;
-    text-align: center;
-    background-image: url(sources/static-tv-1.png);
-    text-transform: uppercase;
-    font-size: x-large;
+img, canvas, iframe, video { display: block; max-width: 100%; }
+iframe { border: 0; }
+
+h1, h2, h3 { font-weight: 700; line-height: 1.04; letter-spacing: -0.025em; margin: 0; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+a { color: var(--ink); text-decoration-color: var(--accent-dim); text-underline-offset: 0.25em; }
+a:hover { text-decoration-color: var(--accent); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
-.hydra-title {
-    padding: 80px;
-    text-align: center;
-    background-image: url(sources/static-tv-1.png);
-    text-transform: uppercase;
-    font-size: x-large;
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  border-radius: var(--radius);
 }
 
-.p5-title {
-    padding: 80px;
-    text-align: center;
-    background-image: url(sources/static-tv-1.png);
-    text-transform: uppercase;
-    font-size: x-large;
+/* --------------------------------------------------------------- utilities */
+
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
 
-.contact-title {
-    padding: 80px;
-    text-align: center;
-    background-image: url(sources/static-tv-1.png);
-    text-transform: uppercase;
-    font-size: x-large;
+.mono {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
 }
 
-.links {
-    overflow: hidden;
-    }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+}
 
-.links a {
-    float: left;
-    display: block;
-    color: aliceblue;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: large;
-    }
+/* Grain sits on a fixed layer so it never repaints while the page scrolls. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background-image: url("sources/static-tv-1.png");
+  background-size: 420px;
+  opacity: 0.035;
+  mix-blend-mode: screen;
+}
 
-.links a.right {
-    float: right;
-    }
+/* -------------------------------------------------------------------- nav */
 
-.links a:hover {
-    background-image: url(sources/static-tv-1.png);
-    }
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: var(--rule);
+}
 
-.hydra-links {
-    overflow: hidden;
-    }
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1.75rem);
+  height: 68px;
+}
 
-.hydra-links a {
-    text-decoration: none;
-    color: aliceblue;
-    text-align: center;
-    padding: 14px 16px;
-    font-size: large;
-    }
+.nav__name {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-right: auto;
+  text-decoration: none;
+  white-space: nowrap;
+}
 
-.hydra-links a:hover {
-    background-image: url(sources/static-tv-1.png);
-    }
+.nav__links { display: flex; align-items: center; gap: clamp(0.5rem, 2vw, 1.5rem); }
 
-.p5-links {
-    overflow: hidden;
-    }
+.nav a[data-nav] {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--ink-mid);
+  text-decoration: none;
+  white-space: nowrap;
+  padding-block: 0.35rem;
+  border-bottom: 1px solid transparent;
+}
+.nav a[data-nav]:hover { color: var(--ink); border-bottom-color: var(--line-bright); }
+.nav a[data-nav][aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
 
-.p5-links a {
-    text-decoration: none;
-    color: aliceblue;
-    text-align: center;
-    padding: 14px 16px;
-    font-size: large;
-    }
+/* ------------------------------------------------------------------ frames */
 
-.p5-links a:hover {
-    background-image: url(sources/static-tv-1.png);
-    }
+/* Every live canvas is an iframe: each sketch patches hydra's output
+   prototype and grabs canvas[0] by tag name, so two in one document fight. */
+.frame {
+  position: relative;
+  background: var(--bg-sunken);
+  border: var(--rule);
+  overflow: hidden;
+}
+.frame > iframe { width: 100%; height: 100%; position: absolute; inset: 0; }
 
-.contact-links {
-    overflow: hidden;
-    }
+.frame--wide { aspect-ratio: 16 / 9; }
 
-.contact-links a {
-    text-decoration: none;
-    color: aliceblue;
-    text-align: center;
-    padding: 14px 16px;
-    font-size: large;
-    }
+/* The retune roll. Vertical hold slipping, paired with the tear the player
+   runs inside hydra itself. */
+.frame[data-tearing] { animation: vhold 420ms steps(9, end); }
 
-.contact-links a:hover {
-    background-image: url(sources/static-tv-1.png);
-    }
+@keyframes vhold {
+  0%   { transform: translateY(0); filter: none; }
+  35%  { transform: translateY(-1.5%); filter: contrast(1.35) saturate(0.6); }
+  60%  { transform: translateY(2.5%); filter: contrast(1.6) saturate(0.3) brightness(1.2); }
+  85%  { transform: translateY(-0.8%); filter: contrast(1.2); }
+  100% { transform: translateY(0); filter: none; }
+}
 
-    
+/* ----------------------------------------------------------------- section */
+
+.section { padding-block: clamp(4rem, 9vw, 8rem); }
+.section--tight { padding-block: clamp(2.5rem, 5vw, 4rem); }
+
+.section__head { max-width: 46ch; margin-bottom: clamp(2rem, 4vw, 3.25rem); }
+
+.section__head h2 {
+  font-size: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+  margin-bottom: 0.75rem;
+}
+
+.section__head p { color: var(--ink-mid); }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* -------------------------------------------------------------------- hero */
+
+.hero {
+  position: relative;
+  min-height: min(92dvh, 860px);
+  display: grid;
+  isolation: isolate;
+}
+
+.hero__media { position: absolute; inset: 0; z-index: 0; border: 0; }
+
+/* The hero is the one place the work plays second to something else, so it is
+   dimmed to let the type sit on it. Everywhere else it runs at full strength. */
+.hero__media iframe {
+  width: 100%;
+  height: 100%;
+  filter: brightness(0.52) saturate(0.72) contrast(1.05);
+}
+
+/* Scrim keeps the type legible over whatever the sketch is doing. */
+.hero__scrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(to top, var(--bg) 4%, color-mix(in srgb, var(--bg) 82%, transparent) 34%, color-mix(in srgb, var(--bg) 30%, transparent) 66%, transparent),
+    linear-gradient(to right, color-mix(in srgb, var(--bg) 88%, transparent), color-mix(in srgb, var(--bg) 35%, transparent) 46%, transparent 72%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--bg) 70%, transparent), transparent 22%);
+}
+
+/* Anchored bottom-left rather than centred. */
+.hero__body {
+  position: relative;
+  z-index: 2;
+  align-self: end;
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+  max-width: 48ch;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 1.4rem + 5.2vw, 5.25rem);
+  margin-bottom: 0.85rem;
+}
+
+.hero__lede {
+  color: var(--ink-mid);
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.1875rem);
+  max-width: 34ch;
+}
+
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+
+/* ----------------------------------------------------------------- buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.15rem;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid var(--line-bright);
+  background: color-mix(in srgb, var(--bg-raised) 80%, transparent);
+  color: var(--ink);
+  transition: transform 120ms, border-color 160ms, background-color 160ms, color 160ms;
+}
+.btn:hover { border-color: var(--accent-dim); background: var(--bg-raised); }
+.btn:active { transform: translateY(1px); }
+
+/* Solid accent on near-black clears AA comfortably. */
+.btn--primary { background: var(--accent); border-color: var(--accent); color: #04150c; font-weight: 700; }
+.btn--primary:hover { background: #93e9b6; border-color: #93e9b6; color: #04150c; }
+
+.btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+
+/* ------------------------------------------------------------ player + dial */
+
+.player { position: relative; }
+
+.player__stage { aspect-ratio: 16 / 9; }
+
+@media (max-width: 640px) {
+  /* Taller crop on phones so the work is not a letterbox strip. */
+  .player__stage { aspect-ratio: 4 / 3; }
+}
+
+.player__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+  flex-wrap: wrap;
+  padding-block: 0.9rem;
+  border-bottom: var(--rule);
+}
+
+.player__now { margin-right: auto; min-width: 0; }
+.player__title { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.01em; }
+.player__blurb { color: var(--ink-mid); font-size: 0.875rem; }
+
+.player__controls { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.badge {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid var(--line-bright);
+  color: var(--ink-dim);
+}
+.badge--warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, transparent); }
+
+/* The dial. Horizontal scroll-snap on every viewport; drag, wheel and arrow
+   keys are wired up in site.js on top of native scrolling. */
+.dial {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-bright) transparent;
+  border-block: var(--rule);
+}
+.dial::-webkit-scrollbar { height: 3px; }
+.dial::-webkit-scrollbar-thumb { background: var(--line-bright); }
+
+.station {
+  flex: 0 0 auto;
+  width: min(17rem, 72vw);
+  scroll-snap-align: start;
+  text-align: left;
+  padding: 1rem 1.1rem 1.2rem;
+  border-right: var(--rule);
+  color: var(--ink-mid);
+  transition: background-color 160ms, color 160ms;
+}
+.station:hover { background: var(--bg-raised); color: var(--ink); }
+
+.station[aria-current="true"] {
+  background: var(--bg-raised);
+  color: var(--ink);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.station__no { font-family: var(--mono); font-size: 0.6875rem; color: var(--accent); letter-spacing: 0.1em; }
+.station__title { display: block; font-weight: 700; font-size: 0.9375rem; margin-block: 0.3rem 0.25rem; color: var(--ink); letter-spacing: -0.01em; }
+.station__blurb { font-size: 0.8125rem; line-height: 1.45; }
+.station__thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; margin-bottom: 0.7rem; background: var(--bg-sunken); }
+
+/* ------------------------------------------------------------------- lists */
+
+/* Archive rows. One hairline between rows, never top and bottom on each. */
+.rows { border-top: var(--rule); }
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem 1.5rem;
+  align-items: baseline;
+  padding-block: 1.05rem;
+  border-bottom: var(--rule);
+}
+
+.row__name { font-weight: 700; letter-spacing: -0.01em; text-decoration: none; }
+.row__name:hover { color: var(--accent); }
+.row__note { grid-column: 1 / -1; color: var(--ink-dim); font-size: 0.875rem; margin-top: -0.35rem; }
+.row__actions { display: flex; gap: 0.4rem; }
+
+@media (max-width: 560px) {
+  .row { grid-template-columns: 1fr; }
+  .row__actions { grid-column: 1; }
+}
+
+/* ------------------------------------------------------------------- about */
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.split__prose { display: grid; gap: 1.15rem; max-width: 58ch; color: var(--ink-mid); }
+.split__prose strong { color: var(--ink); font-weight: 700; }
+
+.split__figure figcaption { margin-top: 0.75rem; }
+
+@media (max-width: 860px) {
+  .split { grid-template-columns: 1fr; }
+}
+
+/* ------------------------------------------------------------------ footer */
+
+.footer {
+  border-top: var(--rule);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 2rem;
+}
+
+.footer h2 { font-size: 1.5rem; margin-bottom: 0.75rem; }
+
+.linklist { display: grid; gap: 0.55rem; }
+.linklist a { font-family: var(--mono); font-size: 0.8125rem; color: var(--ink-mid); text-decoration: none; }
+.linklist a:hover { color: var(--accent); }
+
+.colophon { margin-top: 2.5rem; color: var(--ink-dim); font-size: 0.75rem; font-family: var(--mono); }
+
+/* Explanatory copy under the dial. Long enough that mono would be a wall. */
+.note {
+  color: var(--ink-mid);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  max-width: 64ch;
+}
+
+/* ------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .frame[data-tearing] { animation: none; }
+}

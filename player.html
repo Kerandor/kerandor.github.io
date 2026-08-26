@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+
+  <script id="fxhash-snippet">
+    // fxhash seed. 42 of the 48 sketches call fxrand() to choose their own
+    // frequencies and pixel sizes, so each hash is a distinct variant of the
+    // same piece. Some variants of the sparser pieces render near-black, which
+    // is why the catalog pins a seed known to produce an image; ?hash=
+    // overrides it and is what a permalink to one exact variant carries.
+    var fxhash, fxrand;
+    var isFxpreview = false;
+    function fxpreview() { }
+
+    (function () {
+      var alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+
+      window.randomHash = function () {
+        return "oo" + Array(49).fill(0)
+          .map(function () { return alphabet[(Math.random() * alphabet.length) | 0]; }).join("");
+      };
+
+      window.installHash = function (hash) {
+        var b58dec = function (str) {
+          return [...str].reduce(function (p, c) { return p * alphabet.length + alphabet.indexOf(c) | 0; }, 0);
+        };
+        var trunc = hash.slice(2);
+        var re = new RegExp(".{" + ((trunc.length / 4) | 0) + "}", "g");
+        var parts = trunc.match(re).map(b58dec);
+        var sfc32 = function (a, b, c, d) {
+          return function () {
+            a |= 0; b |= 0; c |= 0; d |= 0;
+            var t = (a + b | 0) + d | 0;
+            d = d + 1 | 0;
+            a = b ^ b >>> 9;
+            b = c + (c << 3) | 0;
+            c = c << 21 | c >>> 11;
+            c = c + t | 0;
+            return (t >>> 0) / 4294967296;
+          };
+        };
+        fxhash = window.fxhash = hash;
+        fxrand = window.fxrand = sfc32.apply(null, parts);
+        return hash;
+      };
+    })();
+  </script>
+
+  <script src="./assets/hydra/hydra-synth.js"></script>
+
+  <style>
+    html, body { background: #07080a; height: 100%; margin: 0; overflow: hidden; }
+    canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    #status {
+      position: fixed; inset: auto 12px 12px 12px;
+      font: 12px/1.5 ui-monospace, "JetBrains Mono", Menlo, monospace;
+      color: #e8ece9; background: rgba(7, 8, 10, .86);
+      border-left: 2px solid #7de0a6; padding: 10px 12px;
+      display: none; white-space: pre-wrap; z-index: 10;
+    }
+    #status[data-error] { border-left-color: #ff6b5e; }
+  </style>
+</head>
+
+<body>
+  <div id="status"></div>
+
+  <script type="module">
+    import { installAudioShim } from "./assets/js/audio-shim.js";
+
+    const params = new URLSearchParams(location.search);
+    const wanted = params.get("sketch");
+    const audioMode = params.get("audio") === "mic" ? "mic" : "synth";
+    const stillOnly = params.get("still") === "1";
+    const statusEl = document.getElementById("status");
+
+    const post = (type, detail = {}) => parent.postMessage({ source: "hydra-player", type, ...detail }, "*");
+
+    function fail(message) {
+      statusEl.textContent = message;
+      statusEl.dataset.error = "";
+      statusEl.style.display = "block";
+      post("error", { message });
+    }
+
+    window.addEventListener("error", (e) => fail(`Sketch error: ${e.message}`));
+    window.addEventListener("unhandledrejection", (e) => fail(`Sketch error: ${e.reason?.message || e.reason}`));
+
+    // Resolve the id against the catalog rather than accepting a path from the
+    // query string. Nothing outside the catalog is loadable.
+    let catalog;
+    try {
+      catalog = await (await fetch("./assets/data/catalog.json")).json();
+    } catch {
+      fail("Could not load the sketch catalog.");
+      throw new Error("catalog");
+    }
+
+    const entry = catalog.sketches.find((s) => s.id === wanted);
+    if (!entry) {
+      fail(wanted ? `Unknown sketch: ${wanted}` : "No sketch selected.");
+      throw new Error("unknown sketch");
+    }
+
+    // Precedence: explicit permalink, then the seed pinned by tools/capture.mjs,
+    // then a fresh random variant.
+    const activeHash = installHash(params.get("hash") || entry.seed || randomHash());
+
+    const canvas = document.createElement("canvas");
+    document.body.appendChild(canvas);
+
+    // autoLoop off so pause, resume and single-frame stills are all under our
+    // control. hydra discards its own raf-loop handle, so there is no other way.
+    const hydra = new Hydra({
+      canvas,
+      detectAudio: audioMode === "mic",
+      autoLoop: false,
+      makeGlobal: true
+    });
+
+    if (audioMode === "synth") installAudioShim(8);
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(1, Math.round(window.innerWidth * dpr));
+      const h = Math.max(1, Math.round(window.innerHeight * dpr));
+      // Cap the backing store. These are heavy feedback chains and the pixelate
+      // stages mean extra resolution buys nothing visible.
+      const scale = Math.min(1, 1600 / w, 900 / h);
+      hydra.setResolution(Math.round(w * scale), Math.round(h * scale));
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Track which output is on screen so the tear transition hits the right one.
+    let renderTarget = window.o0;
+    const baseRender = window.render;
+    window.render = (o) => { renderTarget = o || window.o0; return baseRender(o); };
+
+    let running = false;
+    let last = performance.now();
+    let raf = 0;
+
+    function frame(now) {
+      raf = requestAnimationFrame(frame);
+      const dt = Math.min(now - last, 100);
+      last = now;
+      hydra.tick(dt);
+    }
+
+    function start() {
+      if (running) return;
+      running = true;
+      last = performance.now();
+      raf = requestAnimationFrame(frame);
+      post("state", { running: true });
+    }
+
+    function stop() {
+      if (!running) return;
+      running = false;
+      cancelAnimationFrame(raf);
+      post("state", { running: false });
+    }
+
+    // Signal loss, done in hydra rather than as a CSS filter. The outgoing
+    // chain is overwritten on purpose; this frame is being thrown away.
+    let tear = 0;
+    function tearOut(duration = 420) {
+      const target = renderTarget;
+      src(target)
+        .modulate(noise(3, 0.35), () => tear * 0.45)
+        .scrollY(() => tear * 0.5 * Math.sin(performance.now() / 55))
+        .add(noise(26, 0.2).thresh(() => 0.98 - tear * 0.55), () => tear * 0.85)
+        .out(target);
+      window.render(target);
+
+      const t0 = performance.now();
+      (function ramp() {
+        tear = Math.min(1, (performance.now() - t0) / duration);
+        if (tear < 1) requestAnimationFrame(ramp);
+        else post("torn");
+      })();
+    }
+
+    window.addEventListener("message", (e) => {
+      const msg = e.data;
+      if (!msg || msg.target !== "hydra-player") return;
+      if (msg.type === "pause") stop();
+      if (msg.type === "resume") start();
+      if (msg.type === "tear") tearOut(msg.duration);
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stop();
+      else if (!stillOnly) start();
+    });
+
+    const script = document.createElement("script");
+    script.src = "./" + entry.file;
+    script.onerror = () => fail(`Could not load ${entry.file}`);
+    script.onload = () => {
+      post("ready", { id: entry.id, title: entry.title, hash: activeHash, audio: audioMode });
+      if (stillOnly) {
+        // One frame, then hold. Used for reduced-motion and thumbnail capture.
+        hydra.tick(16);
+        requestAnimationFrame(() => hydra.tick(16));
+      } else {
+        start();
+      }
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+
+</html>

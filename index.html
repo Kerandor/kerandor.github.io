@@ -1,33 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tristan Bridges</title>
+  <meta name="description" content="Generative video by Tristan Bridges, live coded in hydra-synth. Forty pieces running in the browser.">
 
-    <title>Tristan's Artpage</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
 
-    <link rel="stylesheet" href="style.css" />
-
+  <meta property="og:title" content="Tristan Bridges">
+  <meta property="og:description" content="Generative video, live coded in hydra-synth.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/img/tv-wall.jpg">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body>
-    <div class="title">
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="nav__inner shell">
+      <!-- Name appears here, in the hero, and in the footer of each page.
+           To change it everywhere: see README. -->
+      <a class="nav__name" href="index.html">Tristan Bridges</a>
+      <nav class="nav__links" aria-label="Main">
+        <a data-nav href="hydras.html">Hydra</a>
+        <a data-nav href="p5.html">p5</a>
+        <a data-nav href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__media" data-hero data-sketch="dsf_06_cross_phase_gate">
+        <iframe title="Live generative video: Cross Phase Gate" loading="eager"></iframe>
+      </div>
+      <div class="hero__scrim" aria-hidden="true"></div>
+
+      <div class="shell hero__body">
         <h1>Tristan Bridges</h1>
-        <p>Creative Coder</p>
+        <p class="hero__lede">
+          I make generative video by typing at a synthesizer while it runs.
+          Everything on this page is drawing itself right now.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="hydras.html">See the work</a>
+          <a class="btn" href="contact.html">Contact</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="rows">
+        <article class="row">
+          <a class="row__name" href="hydras.html">Hydra</a>
+          <div class="row__actions"><span class="mono">48 pieces</span></div>
+          <p class="row__note">
+            Live coded video synthesis. The Dual Signal series plus older work, all running
+            natively in the browser rather than embedded from somewhere else.
+          </p>
+        </article>
+        <article class="row">
+          <a class="row__name" href="p5.html">p5</a>
+          <div class="row__actions"><span class="mono">5 pieces</span></div>
+          <p class="row__note">
+            Sketches in p5.js. Erosion models, radar sweeps, colour studies.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="about">
+      <div class="split">
+        <div class="split__prose">
+          <h2 style="font-size:clamp(1.75rem,1.2rem + 2.4vw,3rem);color:var(--ink);margin-bottom:.5rem">About</h2>
+          <p>
+            <strong>Tristan Bridges</strong> is a full-stack developer and creative coder based in
+            Minneapolis. He builds custom software at Soto Digital and spends the rest of his time
+            making generative video with hydra-synth, a video synthesizer you program by typing at
+            it while it runs.
+          </p>
+          <p>
+            Most of the work here is feedback. An oscillator gets folded back into itself and
+            modulated until it stops looking like math and starts behaving like broadcast equipment
+            coming apart. The Dual Signal series is twenty of those, built around two signals
+            arguing across a center axis, with the gates and thresholds opened by whatever the room
+            sounds like.
+          </p>
+          <p>
+            Before software there were three years in a research lab in San Diego and a published
+            paper in 2022. The habits carried over. Almost every piece here is one variable moved at
+            a time, run until it does something he did not plan.
+          </p>
+        </div>
+
+        <figure class="split__figure" style="margin:0">
+          <picture>
+            <source srcset="assets/img/tv-wall.webp" type="image/webp">
+            <img src="assets/img/tv-wall.jpg" width="1400" height="1050"
+                 alt="A wall of stacked CRT televisions showing generative video" loading="lazy" decoding="async">
+          </picture>
+          <figcaption class="mono">Output wall, running the Dual Signal set.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">
+      <div class="footer__grid">
+        <div>
+          <h2>Elsewhere</h2>
+          <p class="mono" style="color:var(--ink-mid)">Where the work ends up.</p>
+        </div>
+        <ul class="linklist">
+          <li><a href="https://www.instagram.com/wizard.imma/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@InternetKidsHomeVideo-mz1ck">Internet Kids on YouTube</a></li>
+          <li><a href="https://openprocessing.org/user/291837?view=activity&amp;o=2">OpenProcessing</a></li>
+          <li><a href="https://github.com/TB-RGB">GitHub</a></li>
+        </ul>
+        <ul class="linklist">
+          <li><a href="mailto:tbridges024@gmail.com">tbridges024@gmail.com</a></li>
+          <li><a href="hydras.html">Hydra</a></li>
+          <li><a href="p5.html">p5</a></li>
+        </ul>
+      </div>
+      <p class="colophon">Built with hydra-synth. Sketches run locally, nothing is embedded from elsewhere.</p>
     </div>
+  </footer>
 
-    <div class="links">
-        <a href="./hydras.html">Hydra</a>
-        <a href="./p5.html">p5</a>
-        <a href="./contact.html" class="right">Contact</a>
-    </div>
-
-    <div class="image">
-        <img src="sources/IMG_7634.png" alt="TV Wall" style="width: 1400px; height: 1400px;">
-    </div>
-
-
+  <script type="module" src="assets/js/site.js"></script>
 </body>
 
 </html>

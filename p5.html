@@ -2,36 +2,100 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>p5.js</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>p5</title>
+  <meta name="description" content="Sketches in p5.js by Tristan Bridges. Erosion models, radar sweeps, colour studies.">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+
+  <meta property="og:title" content="p5">
+  <meta property="og:description" content="Sketches in p5.js.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/img/tv-wall.jpg">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body>
-    <div class="p5-title">
-        <h1>p5.js</h1>
-        <p>processing for javascript</p>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="nav__inner shell">
+      <a class="nav__name" href="index.html">Tristan Bridges</a>
+      <nav class="nav__links" aria-label="Main">
+        <a data-nav href="hydras.html">Hydra</a>
+        <a data-nav href="p5.html" aria-current="page">p5</a>
+        <a data-nav href="contact.html">Contact</a>
+      </nav>
     </div>
+  </header>
 
-    <div class="links">
-        <a href="./index.html">Home</a>
-        <a href="./contact.html" class="right">Contact</a>
+  <main>
+    <section class="section--tight shell">
+      <div class="section__head" style="margin-bottom:1.5rem">
+        <h2>p5.js</h2>
+        <p>Processing for JavaScript. These still run on their original deploys.</p>
+      </div>
+
+      <div class="frame frame--wide">
+        <iframe src="https://mutually-assured-generation.vercel.app"
+                title="mutually-assured-generation, a p5.js sketch" loading="lazy"></iframe>
+      </div>
+      <p class="colophon" style="margin-top:.9rem">
+        Above: <a href="https://mutually-assured-generation.vercel.app">mutually-assured-generation</a>
+      </p>
+    </section>
+
+    <section class="section shell">
+      <div class="rows">
+        <article class="row">
+          <a class="row__name" href="https://neo-radar.vercel.app/">neo-radar</a>
+          <div class="row__actions"><span class="mono">move the mouse around</span></div>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://parameter.vercel.app/">parameter</a>
+          <div class="row__actions"><span class="mono">WebGL</span></div>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://erosionv2.vercel.app/">erosionv2</a>
+          <div class="row__actions"><span class="mono">start, stop, randomize, and save</span></div>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://color-stud.vercel.app/">color-stud</a>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://mutually-assured-generation.vercel.app">mutually-assured-generation</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">
+      <div class="footer__grid">
+        <div>
+          <h2>Elsewhere</h2>
+          <p class="mono" style="color:var(--ink-mid)">Where the work ends up.</p>
+        </div>
+        <ul class="linklist">
+          <li><a href="https://www.instagram.com/wizard.imma/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@InternetKidsHomeVideo-mz1ck">Internet Kids on YouTube</a></li>
+          <li><a href="https://openprocessing.org/user/291837?view=activity&amp;o=2">OpenProcessing</a></li>
+          <li><a href="https://github.com/TB-RGB">GitHub</a></li>
+        </ul>
+        <ul class="linklist">
+          <li><a href="mailto:tbridges024@gmail.com">tbridges024@gmail.com</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="hydras.html">Hydra</a></li>
+        </ul>
+      </div>
+      <p class="colophon">Built with hydra-synth. Sketches run locally, nothing is embedded from elsewhere.</p>
     </div>
+  </footer>
 
-    <div>
-        <iframe src="https://mutually-assured-generation.vercel.app" style="border: none;" width="1000" height="600"></iframe>
-    </div>
-
-    <div class="p5-links">
-        <a href="https://mutually-assured-generation.vercel.app">↑ mutually-assured-generation ↑</a>
-        <a href="https://neo-radar.vercel.app/">neo-radar (move the mouse around) </a>
-        <a href="https://parameter.vercel.app/">parameter (WebGL) </a>
-        <a href="https://erosionv2.vercel.app/">erosionv2 (start, stop, randomize, and save) </a>
-        <a href="https://color-stud.vercel.app/">color-stud </a>
-
-    </div>
-
+  <script type="module" src="assets/js/site.js"></script>
 </body>
 
 </html>

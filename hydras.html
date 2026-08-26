@@ -1,58 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hydra</title>
+  <meta name="description" content="Forty-eight live coded hydra-synth pieces running natively in the browser. Dual Signal, favorites, and earlier work.">
 
-    <title>hydra-synth wirks</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
 
-    <link rel="stylesheet" href="style.css" />
-
-    <script src="https://unpkg.com/hydra-synth"></script>
+  <meta property="og:title" content="Hydra">
+  <meta property="og:description" content="Live coded video synthesis, running in the browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/img/tv-wall.jpg">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body>
-    <div class="hydra-title">
-        <h1>hydra-synth.js</h1>
-        <p>fun feedback and oscillations</p>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="nav__inner shell">
+      <a class="nav__name" href="index.html">Tristan Bridges</a>
+      <nav class="nav__links" aria-label="Main">
+        <a data-nav href="hydras.html" aria-current="page">Hydra</a>
+        <a data-nav href="p5.html">p5</a>
+        <a data-nav href="contact.html">Contact</a>
+      </nav>
     </div>
+  </header>
 
-    <div class="links">
-        <a href="./index.html">Home</a>
-        <a href="./contact.html" class="right">Contact</a>
+  <main>
+    <section class="section--tight shell">
+      <div class="section__head" style="margin-bottom:1.5rem">
+        <h2>hydra-synth</h2>
+        <p>Fun feedback and oscillations. Pick a piece and it retunes.</p>
+      </div>
+    </section>
+
+    <section data-gallery aria-label="Sketch player">
+      <div class="shell">
+        <div class="frame frame--wide player__stage" data-stage>
+          <iframe title="Live generative video" allow="microphone" loading="eager"></iframe>
+        </div>
+
+        <div class="player__bar">
+          <div class="player__now">
+            <div class="player__title" data-now-title>Loading</div>
+            <div class="player__blurb" data-now-blurb></div>
+          </div>
+
+          <div class="player__controls">
+            <button class="btn" type="button" data-control="play" aria-pressed="true">
+              <span>play</span>
+            </button>
+            <button class="btn" type="button" data-control="mic" aria-pressed="false"
+                    title="Drive the piece with your microphone instead of the built in signal">
+              <span>use mic</span>
+            </button>
+            <button class="btn" type="button" data-control="reseed"
+                    title="Load a different variant of this piece">
+              <span>reseed</span>
+            </button>
+            <button class="btn" type="button" data-control="link"
+                    title="Copy a link to this exact variant">
+              <span>copy link</span>
+            </button>
+            <button class="btn" type="button" data-control="full"><span>fullscreen</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dial" data-dial role="tablist" aria-label="Pieces" tabindex="0"></div>
+
+      <div class="shell">
+        <p class="note" style="margin-top:1.25rem">
+          Each piece is seeded, so reseed gives you a different variant of the same patch and
+          copy link captures the one you are looking at. Pieces marked flashing contain rapid
+          strobing. By default the gates are driven by a built in signal; use mic swaps in your
+          own audio, which is how these are performed.
+        </p>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="section__head">
+        <span class="eyebrow">Archive</span>
+        <h2>Earlier deploys</h2>
+        <p>
+          These went up one per site a few years ago. The ones with local source now run here too,
+          linked from the player above.
+        </p>
+      </div>
+
+      <div class="rows">
+        <article class="row">
+          <a class="row__name" href="https://miscible.vercel.app/">miscible</a>
+          <div class="row__actions"><span class="mono">randomized on reload</span></div>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://dithers.vercel.app/">dithers</a>
+          <div class="row__actions">
+            <a class="btn" href="#dithers">play here</a>
+          </div>
+          <p class="row__note">Reload if b&amp;w, takes a lot of memory.</p>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://warbles.vercel.app/">warbles</a>
+          <div class="row__actions"><a class="btn" href="#warbles">play here</a></div>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://doppler.vercel.app">doppler</a>
+          <div class="row__actions"><a class="btn" href="#doppler">play here</a></div>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://puddlez.vercel.app/">puddlez</a>
+          <div class="row__actions"><a class="btn" href="#puddlez">play here</a></div>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://kaleid.vercel.app/">kaleid</a>
+          <div class="row__actions"><a class="btn" href="#kaleid">play here</a></div>
+          <p class="row__note">Randomized on reload.</p>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://hydruhs.vercel.app/">hydruhs</a>
+          <div class="row__actions"><span class="mono">link only</span></div>
+        </article>
+        <article class="row">
+          <a class="row__name" href="https://brainfuzz.vercel.app/">brainfuzz</a>
+          <div class="row__actions"><a class="btn" href="#brainfuzz">play here</a></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">
+      <div class="footer__grid">
+        <div>
+          <h2>Elsewhere</h2>
+          <p class="mono" style="color:var(--ink-mid)">Where the work ends up.</p>
+        </div>
+        <ul class="linklist">
+          <li><a href="https://www.instagram.com/wizard.imma/">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@InternetKidsHomeVideo-mz1ck">Internet Kids on YouTube</a></li>
+          <li><a href="https://openprocessing.org/user/291837?view=activity&amp;o=2">OpenProcessing</a></li>
+          <li><a href="https://github.com/TB-RGB">GitHub</a></li>
+        </ul>
+        <ul class="linklist">
+          <li><a href="mailto:tbridges024@gmail.com">tbridges024@gmail.com</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="p5.html">p5</a></li>
+        </ul>
+      </div>
+      <p class="colophon">Built with hydra-synth. Sketches run locally, nothing is embedded from elsewhere.</p>
     </div>
+  </footer>
 
-    <div class="hydra">
-        <canvas id="hydra" width="1000" height="600"></canvas>
-    </div>
-
-    <div class="hydra-links">
-        <a href="https://miscible.vercel.app/">miscible (randomized on reload)</a>
-        <a href="https://dithers.vercel.app/">dithers (reload if b&w, takes a lot of memory)</a>
-        <a href="https://warbles.vercel.app/">warbles</a>
-        <a href="https://doppler.vercel.app">doppler</a>
-        <a href="https://puddlez.vercel.app/">puddlez</a>
-        <a href="https://kaleid.vercel.app/">kaleid (randomized on reload)</a>
-        <a href="https://hydruhs.vercel.app/">hydruhs</a>
-        <a href="https://brainfuzz.vercel.app/">brainfuzz</a>
-    </div>
-
-    <script>
-        // create a hydra-synth instance
-        const hydra = new Hydra({
-            canvas: document.getElementById('hydra'),
-            detectAudio: false
-        })
-
-        osc(100, 0.26, 1.8).modulate(noise(0.84).modulateScale(osc(10))).out(o0)
-
-        voronoi(25, 1.0).modulateRotate(noise(0.1)).modulate(src(o0).blend(src(o1))).colorama(0.77).out(o1)
-        render(o1)
-        speed = 0.5
-    </script>
-
-
+  <script type="module" src="assets/js/site.js"></script>
 </body>
 
 </html>
