@@ -7,6 +7,22 @@
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const HASH_ALPHABET = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+
+// fxhash format. Without one of these the player falls back to the seed pinned
+// in the catalog, which made reseed a plain restart.
+const randomHash = () =>
+  "oo" + Array.from({ length: 49 }, () => HASH_ALPHABET[(Math.random() * HASH_ALPHABET.length) | 0]).join("");
+
+const shuffled = (list) => {
+  const out = [...list];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = (Math.random() * (i + 1)) | 0;
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+};
+
 /* ------------------------------------------------------------------ player */
 
 class Player {
@@ -80,7 +96,11 @@ class Player {
     this.iframe.src = this.url(this.current, this.hash);
   }
 
-  reseed() { this.iframe.src = this.url(this.current, null); }
+  reseed() {
+    const next = randomHash();
+    this.hash = next;
+    this.iframe.src = this.url(this.current, next);
+  }
 
   permalink() {
     const u = new URL(location.href);
@@ -92,23 +112,31 @@ class Player {
 
 /* ------------------------------------------------------------------- dial */
 
-function stationMarkup(sketch, index) {
+// Numbering comes from the sketch id, not the display order, so it stays
+// meaningful now that the list is shuffled on each visit.
+const stationNumber = (id) => (id.match(/^ds[fr]?_(\d+)/) || [])[1] || "";
+
+function stationMarkup(sketch) {
   const warn = sketch.tags.includes("strobe-risk") || sketch.tags.includes("intense");
-  const thumb = `assets/img/thumbs/${sketch.id}.webp`;
+  const no = stationNumber(sketch.id);
   return `
     <button class="station" type="button" role="tab" data-id="${sketch.id}" aria-current="false">
-      <img class="station__thumb" src="${thumb}" alt="" loading="lazy" decoding="async"
-           onerror="this.remove()">
-      <span class="station__no">${String(index + 1).padStart(2, "0")} / ${sketch.series}</span>
-      <span class="station__title">${sketch.title}</span>
-      <span class="station__blurb">${sketch.blurb || ""}</span>
-      ${warn ? '<span class="badge badge--warn" style="margin-top:.5rem">flashing</span>' : ""}
+      <img class="station__thumb" src="assets/img/thumbs/${sketch.id}.webp" alt="" loading="lazy"
+           decoding="async" onerror="this.style.visibility='hidden'">
+      <span class="station__meta">
+        <span class="station__no">${no ? no + " / " : ""}${sketch.series}</span>
+        <span class="station__title">${sketch.title}</span>
+        <span class="station__blurb">${sketch.blurb || ""}</span>
+        ${warn ? '<span class="badge badge--warn">flashing</span>' : ""}
+      </span>
     </button>`;
 }
 
 async function initGallery(root) {
   const catalog = await (await fetch("assets/data/catalog.json")).json();
-  const sketches = catalog.sketches;
+  // Fresh order on every visit so the same few pieces are not always the ones
+  // anyone sees. Deep links still resolve by id.
+  const sketches = shuffled(catalog.sketches);
 
   const dial = root.querySelector("[data-dial]");
   const frame = root.querySelector("[data-stage]");
@@ -121,6 +149,18 @@ async function initGallery(root) {
   const byId = new Map(sketches.map((s) => [s.id, s]));
   let pending = 0;
 
+  // Scroll inside the dial only. scrollIntoView walks up and scrolls the page
+  // too, which pulled the player out of view when arrowing through the list.
+  function revealStation(el) {
+    const top = el.offsetTop;
+    const bottom = top + el.offsetHeight;
+    const behavior = reduceMotion ? "auto" : "smooth";
+    if (top < dial.scrollTop) dial.scrollTo({ top, behavior });
+    else if (bottom > dial.scrollTop + dial.clientHeight) {
+      dial.scrollTo({ top: bottom - dial.clientHeight, behavior });
+    }
+  }
+
   function select(id, { hash = null, scroll = true } = {}) {
     const sketch = byId.get(id);
     if (!sketch) return;
@@ -128,7 +168,7 @@ async function initGallery(root) {
     dial.querySelectorAll(".station").forEach((el) => {
       const on = el.dataset.id === id;
       el.setAttribute("aria-current", String(on));
-      if (on && scroll) el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", inline: "center", block: "nearest" });
+      if (on && scroll) revealStation(el);
     });
 
     titleEl.textContent = sketch.title;
@@ -147,11 +187,22 @@ async function initGallery(root) {
   });
 
   dial.addEventListener("keydown", (e) => {
-    if (!["ArrowLeft", "ArrowRight"].includes(e.key)) return;
     const stations = [...dial.querySelectorAll(".station")];
     const at = stations.findIndex((el) => el.getAttribute("aria-current") === "true");
-    const next = stations[Math.max(0, Math.min(stations.length - 1, at + (e.key === "ArrowRight" ? 1 : -1)))];
-    if (next) { e.preventDefault(); next.focus(); select(next.dataset.id); }
+    let to = null;
+
+    if (e.key === "ArrowDown") to = at + 1;
+    else if (e.key === "ArrowUp") to = at - 1;
+    else if (e.key === "Home") to = 0;
+    else if (e.key === "End") to = stations.length - 1;
+    else return;
+
+    const next = stations[Math.max(0, Math.min(stations.length - 1, to))];
+    if (!next) return;
+    e.preventDefault();
+    // preventScroll because focus() scrolls the page as well as the container.
+    next.focus({ preventScroll: true });
+    select(next.dataset.id);
   });
 
   /* controls */

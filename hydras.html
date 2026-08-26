@@ -41,11 +41,16 @@
     </section>
 
     <section data-gallery aria-label="Sketch player">
-      <div class="shell">
-        <div class="frame frame--wide player__stage" data-stage>
+      <div class="stage">
+        <div class="stage__player" data-stage>
           <iframe title="Live generative video" allow="microphone" loading="eager"></iframe>
         </div>
 
+        <div class="dial" data-dial role="tablist" aria-label="Pieces"
+             tabindex="0" aria-describedby="dial-help"></div>
+      </div>
+
+      <div class="shell">
         <div class="player__bar">
           <div class="player__now">
             <div class="player__title" data-now-title>Loading</div>
@@ -73,14 +78,13 @@
         </div>
       </div>
 
-      <div class="dial" data-dial role="tablist" aria-label="Pieces" tabindex="0"></div>
-
       <div class="shell">
-        <p class="note" style="margin-top:1.25rem">
-          Each piece is seeded, so reseed gives you a different variant of the same patch and
-          copy link captures the one you are looking at. Pieces marked flashing contain rapid
-          strobing. By default the gates are driven by a built in signal; use mic swaps in your
-          own audio, which is how these are performed.
+        <p class="note" id="dial-help" style="margin-top:1.25rem">
+          The list is in a different order every visit. Each piece is seeded, so reseed gives you a
+          genuinely different variant of the same patch, and copy link captures the one you are
+          looking at. Arrow up and down move through the list. Pieces marked flashing contain rapid
+          strobing. By default the gates are driven by a built in signal; use mic swaps in your own
+          audio, which is how these are performed.
         </p>
       </div>
     </section>
