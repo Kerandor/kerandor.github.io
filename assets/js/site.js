@@ -5,6 +5,9 @@
 // prototype and reaches for canvas[0] by tag name, so two sharing a document
 // would collide, and a grid of live WebGL contexts would flatten a phone.
 
+(function () {
+"use strict";
+
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const HASH_ALPHABET = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -318,3 +321,4 @@ function initHero(frame) {
 document.querySelectorAll("[data-hero]").forEach(initHero);
 const gallery = document.querySelector("[data-gallery]");
 if (gallery) initGallery(gallery);
+})();

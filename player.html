@@ -52,6 +52,7 @@
   </script>
 
   <script src="./assets/hydra/hydra-synth.js"></script>
+  <script src="./assets/js/audio-shim.js"></script>
 
   <style>
     html, body { background: #07080a; height: 100%; margin: 0; overflow: hidden; }
@@ -71,8 +72,9 @@
 <body>
   <div id="status"></div>
 
-  <script type="module">
-    import { installAudioShim } from "./assets/js/audio-shim.js";
+  <script>
+    (function () {
+    "use strict";
 
     const params = new URLSearchParams(location.search);
     const wanted = params.get("sketch");
@@ -94,25 +96,48 @@
 
     // Resolve the id against the catalog rather than accepting a path from the
     // query string. Nothing outside the catalog is loadable.
-    let catalog;
-    try {
-      catalog = await (await fetch("./assets/data/catalog.json")).json();
-    } catch {
-      fail("Could not load the sketch catalog.");
-      throw new Error("catalog");
-    }
+    fetch("./assets/data/catalog.json")
+      .then(function (r) { return r.json(); })
+      .then(function (catalog) {
+        const entry = catalog.sketches.find(function (s) { return s.id === wanted; });
+        if (!entry) return fail(wanted ? "Unknown sketch: " + wanted : "No sketch selected.");
+        boot(entry);
+      })
+      .catch(function () { fail("Could not load the sketch catalog."); });
 
-    const entry = catalog.sketches.find((s) => s.id === wanted);
-    if (!entry) {
-      fail(wanted ? `Unknown sketch: ${wanted}` : "No sketch selected.");
-      throw new Error("unknown sketch");
-    }
+    function boot(entry) {
 
     // Precedence: explicit permalink, then the seed pinned by tools/capture.mjs,
     // then a fresh random variant.
     const activeHash = installHash(params.get("hash") || entry.seed || randomHash());
 
+    // Say so rather than leaving a black rectangle. Some Android GPUs and most
+    // in-app browsers refuse WebGL, and a silent failure is indistinguishable
+    // from a piece that renders black.
+    const probe = document.createElement("canvas");
+    const probeGl = probe.getContext("webgl") || probe.getContext("experimental-webgl");
+    if (!probeGl) {
+      return fail("This browser could not start WebGL, which these pieces need in order to draw.");
+    }
+
+    // Precision.
+    //
+    // hydra defaults to mediump everywhere except iOS. On desktop drivers
+    // mediump is quietly implemented as fp32 so nothing shows, but on Android
+    // it is genuinely fp16, and two things in hydra's GLSL do not survive that:
+    // the simplex permute in noise() reaches about 2.84 million against an fp16
+    // ceiling of 65504, and voronoi's 43758.5453 hash constant is past the
+    // guaranteed mediump range of 16384. Both overflow to NaN, which renders
+    // black. Nearly every piece here calls noise(), hence a black canvas on
+    // Android only. Ask for highp wherever the GPU reports it.
+    const hp = probeGl.getShaderPrecisionFormat(probeGl.FRAGMENT_SHADER, probeGl.HIGH_FLOAT);
+    const precision = hp && hp.precision > 0 ? "highp" : "mediump";
+
     const canvas = document.createElement("canvas");
+    canvas.addEventListener("webglcontextlost", function (e) {
+      e.preventDefault();
+      fail("The graphics context was lost. Reload the page to restart the piece.");
+    });
     document.body.appendChild(canvas);
 
     // autoLoop off so pause, resume and single-frame stills are all under our
@@ -121,7 +146,8 @@
       canvas,
       detectAudio: audioMode === "mic",
       autoLoop: false,
-      makeGlobal: true
+      makeGlobal: true,
+      precision
     });
 
     if (audioMode === "synth") installAudioShim(8);
@@ -216,6 +242,8 @@
       }
     };
     document.body.appendChild(script);
+    }
+    })();
   </script>
 </body>
 

@@ -9,6 +9,9 @@
 // higher bins move faster and shallower. The three sine terms sit at
 // incommensurate ratios so the pattern never settles into an obvious loop.
 
+(function () {
+"use strict";
+
 const BAND_RATE = 0.55;   // base cycles per second for bin 0
 const BAND_SPREAD = 1.72; // each bin up is this much faster
 const FLOOR = 0.012;      // keeps thresholds off a hard zero
@@ -26,7 +29,7 @@ function band(t, i) {
   return Math.min(1, v * 0.95 * Math.pow(0.86, i) + FLOOR);
 }
 
-export function installAudioShim(bins = 8) {
+function installAudioShim(bins = 8) {
   let fft = new Array(bins).fill(0);
   let lastUpdate = -1;
   let scale = 1;
@@ -58,3 +61,6 @@ export function installAudioShim(bins = 8) {
   window.a = a;
   return a;
 }
+
+window.installAudioShim = installAudioShim;
+})();

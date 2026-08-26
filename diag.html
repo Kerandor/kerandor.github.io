@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Renderer diagnostics</title>
+  <meta name="robots" content="noindex">
+  <script src="./assets/hydra/hydra-synth.js"></script>
+  <script src="./assets/js/audio-shim.js"></script>
+  <style>
+    body { margin: 0; padding: 16px; background: #07080a; color: #e8ece9;
+           font: 13px/1.55 ui-monospace, "Fira Code", Menlo, monospace; }
+    h1 { font-size: 15px; margin: 0 0 4px; }
+    p  { margin: 0 0 14px; color: #a3aca6; }
+    pre { white-space: pre-wrap; word-break: break-word; background: #0e1013;
+          border-left: 2px solid #7de0a6; padding: 12px; margin: 0 0 12px; }
+    button { font: inherit; background: #7de0a6; color: #04150c; border: 0;
+             padding: 10px 16px; font-weight: 700; }
+    canvas { width: 160px; height: 90px; border: 1px solid #2c3238; background: #000; }
+  </style>
+</head>
+
+<body>
+  <h1>Renderer diagnostics</h1>
+  <p>Tap copy, then send the text back.</p>
+  <pre id="out">running…</pre>
+  <button id="copy" type="button">copy report</button>
+  <p style="margin-top:14px">noise() at mediump (hydra's default off iOS), then at highp:</p>
+  <canvas id="probe"></canvas>
+  <canvas id="probe2" style="margin-left:8px"></canvas>
+
+  <script>
+  (function () {
+    "use strict";
+    var lines = [];
+    var say = function (k, v) { lines.push(String(k) + ": " + String(v)); render(); };
+    var render = function () { document.getElementById("out").textContent = lines.join("\n"); };
+
+    window.addEventListener("error", function (e) { say("window error", e.message); });
+    window.addEventListener("unhandledrejection", function (e) {
+      say("promise rejection", (e.reason && e.reason.message) || e.reason);
+    });
+
+    say("userAgent", navigator.userAgent);
+    say("devicePixelRatio", window.devicePixelRatio);
+    say("viewport", window.innerWidth + "x" + window.innerHeight);
+
+    // Feature gates that would stop the player before it ever drew anything.
+    var supportsModules = ("noModule" in document.createElement("script"));
+    say("es modules", supportsModules);
+    var tla = false;
+    try { new Function("return (async () => {})"); tla = true; } catch (e) {}
+    say("async functions", tla);
+    say("fetch", typeof fetch === "function");
+    say("hydra global", typeof window.Hydra);
+    say("audio shim global", typeof window.installAudioShim);
+
+    // WebGL capability.
+    var c = document.createElement("canvas");
+    var gl = c.getContext("webgl") || c.getContext("experimental-webgl");
+    say("webgl context", !!gl);
+
+    if (gl) {
+      var dbg = gl.getExtension("WEBGL_debug_renderer_info");
+      say("gl vendor", dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : "(masked)");
+      say("gl renderer", dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : "(masked)");
+      say("gl version", gl.getParameter(gl.VERSION));
+      say("max texture size", gl.getParameter(gl.MAX_TEXTURE_SIZE));
+      say("max renderbuffer", gl.getParameter(gl.MAX_RENDERBUFFER_SIZE));
+
+      // mediump is real fp16 on many mobile GPUs but fp32 on desktop, which is
+      // exactly the kind of difference that renders fine on one and not another.
+      ["LOW_FLOAT", "MEDIUM_FLOAT", "HIGH_FLOAT"].forEach(function (p) {
+        var f = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl[p]);
+        say("frag " + p.toLowerCase(), f ? ("precision " + f.precision + ", range " + f.rangeMin + "/" + f.rangeMax) : "unavailable");
+      });
+
+      say("float texture ext", !!gl.getExtension("OES_texture_float"));
+      say("half float ext", !!gl.getExtension("OES_texture_half_float"));
+    }
+
+    // Render noise() at both precisions. hydra defaults to mediump off iOS,
+    // and on a real fp16 GPU the simplex permute overflows to NaN, which is
+    // black. If mediump comes back black here and highp does not, that is the
+    // whole bug in one line.
+    function renderAt(precision, canvasEl) {
+      try {
+        canvasEl.width = 160; canvasEl.height = 90;
+        window.fxrand = Math.random;
+        var h = new Hydra({ canvas: canvasEl, detectAudio: false, autoLoop: false,
+                            makeGlobal: true, precision: precision });
+        if (window.installAudioShim) window.installAudioShim(8);
+        // noise() is the operator that breaks, so test it specifically.
+        noise(4, 0.2).out(o0);
+        for (var i = 0; i < 20; i++) h.tick(33);
+        var g = canvasEl.getContext("webgl") || canvasEl.getContext("experimental-webgl");
+        var px = new Uint8Array(160 * 90 * 4);
+        g.readPixels(0, 0, 160, 90, g.RGBA, g.UNSIGNED_BYTE, px);
+        var max = 0, sum = 0, n = 0;
+        for (var j = 0; j < px.length; j += 4) { if (px[j] > max) max = px[j]; sum += px[j]; n++; }
+        return { used: h.precision, max: max, mean: (sum / n).toFixed(1) };
+      } catch (err) {
+        return { error: (err && err.message) || String(err) };
+      }
+    }
+
+    var hpFmt = gl && gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
+    say("fragment highp available", hpFmt ? hpFmt.precision > 0 : "unknown");
+
+    var mid = renderAt("mediump", document.getElementById("probe"));
+    say("noise at mediump", mid.error ? ("threw " + mid.error) : ("max " + mid.max + ", mean " + mid.mean));
+
+    var high = renderAt("highp", document.getElementById("probe2"));
+    say("noise at highp", high.error ? ("threw " + high.error) : ("max " + high.max + ", mean " + high.mean));
+
+    var midOk = !mid.error && mid.max > 8;
+    var highOk = !high.error && high.max > 8;
+    say("VERDICT", !midOk && highOk ? "confirmed: mediump renders black, highp works"
+                : midOk && highOk ? "both precisions render, the black box is something else"
+                : !midOk && !highOk ? "neither renders, WebGL problem rather than precision"
+                : "mediump works but highp does not, unexpected");
+
+    document.getElementById("copy").addEventListener("click", function () {
+      var text = lines.join("\n");
+      if (navigator.clipboard) navigator.clipboard.writeText(text);
+      else {
+        var t = document.createElement("textarea");
+        t.value = text; document.body.appendChild(t); t.select();
+        document.execCommand("copy"); t.remove();
+      }
+      this.textContent = "copied";
+    });
+  })();
+  </script>
+</body>
+
+</html>
