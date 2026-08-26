@@ -393,10 +393,16 @@ button {
 
 /* About stacks: a readable prose column, then the photograph full width. The
    subject sits low in the frame, so the crop is weighted downward. */
+/* Centred column rather than full bleed: at this shell width an unconstrained
+   line would run to about 150 characters, roughly double a readable measure. */
+.about__intro {
+  max-width: 64ch;
+  margin-inline: auto;
+}
+
 .about__prose {
   display: grid;
   gap: 1.15rem;
-  max-width: 62ch;
   color: var(--ink-mid);
 }
 .about__prose strong { color: var(--ink); font-weight: 700; }
