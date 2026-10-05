@@ -1,6 +1,6 @@
 # kerandor.github.io
 
-Personal site for Tristan Bridges. Static, no build step, no dependencies.
+Personal site for Tristan SwordLegz. Static, no build step, no dependencies.
 
 ## Layout
 
@@ -72,8 +72,8 @@ The name appears 14 times across the four pages and this README, including in
 To change it now:
 
 ```
-grep -rl "Tristan Bridges" . --exclude-dir=.git --exclude-dir=.github \
-  | xargs sed -i '' 's/Tristan Bridges/NEW NAME/g'
+grep -rl "Tristan SwordLegz" . --exclude-dir=.git --exclude-dir=.github \
+  | xargs sed -i '' 's/Tristan SwordLegz/NEW NAME/g'
 ```
 
 A scheduled change is already set up in `.github/workflows/rename.yml`. On the
